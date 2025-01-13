@@ -5,7 +5,7 @@ import { RevenueChart } from './components/charts/RevenueChart';
 import { SalesRegionChart } from './components/charts/SalesRegionChart';
 import { EcommercePlatformChart } from './components/charts/EcommercePlatformChart';
 import { UsersGaugeChart } from './components/charts/UsersGaugeChart';
-import { SessionsByCountry } from './components/charts/SessionsByCountry';
+// import { SessionsByCountry } from './components/charts/SessionsByCountry';
 import { Sidebar } from './components/layout/Sidebar';
 import { FiDownload, FiFilter, FiShare2, FiSliders } from 'react-icons/fi';
 
@@ -129,7 +129,7 @@ function App() {
                       <h2 className="text-base font-semibold text-gray-900">Session by Country</h2>
                       <button className="text-gray-400 hover:text-gray-600">•••</button>
                     </div>
-                    <SessionsByCountry />
+                    {/* <SessionsByCountry /> */}
                   </div>
 
                   {/* Sales by Region */}

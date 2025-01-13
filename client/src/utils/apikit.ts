@@ -66,8 +66,8 @@ export function generateQueryString(query?: QueryArgs) {
 	return "";
 }
 
-function handleFetchError(error: Error) {
-	const errorResponse = error.cause?.response as Response;
+function handleFetchError(error: any) {
+	const errorResponse = error?.cause?.response as Response;
 	if (!errorResponse) return;
 	const status = errorResponse?.status;
 	switch (status) {
