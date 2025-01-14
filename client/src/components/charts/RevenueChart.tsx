@@ -1,11 +1,12 @@
 import ReactECharts from 'echarts-for-react';
 import { useRevenueData } from '../../api/queries';
 import { NoData } from '../NoData';
+import { LineChartSkeleton } from '../skeletons/ChartSkeletons';
 
 export const RevenueChart = () => {
   const { data: revenueData, isLoading, error } = useRevenueData();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LineChartSkeleton />;
   if (error || !revenueData) return <NoData message="Error loading revenue data" />;
 
   const option = {

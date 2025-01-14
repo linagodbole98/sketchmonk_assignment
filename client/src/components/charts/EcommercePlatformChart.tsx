@@ -1,11 +1,12 @@
 import ReactECharts from 'echarts-for-react';
 import { usePlatformData } from '../../api/queries';
 import { NoData } from '../NoData';
+import { DonutChartSkeleton } from '../skeletons/ChartSkeletons';
 
 export const EcommercePlatformChart = () => {
   const { data: platformData, isLoading, error } = usePlatformData();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <DonutChartSkeleton />;
   if (error || !platformData) return <NoData message="Error loading platform data" />;
   const colors = ['#287F71', '#6366f1', '#f59e0b', '#ff5722', '#ff9900', '#4ade80', '#3b82f6']; // Add more colors as needed
   const option = {

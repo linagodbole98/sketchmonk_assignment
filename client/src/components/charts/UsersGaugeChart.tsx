@@ -1,13 +1,14 @@
 import ReactECharts from 'echarts-for-react';
 import { useUserStats } from '../../api/queries';
 import { NoData } from '../NoData';
+import { GaugeChartSkeleton } from '../skeletons/ChartSkeletons';
 import { FaUsers } from 'react-icons/fa';
 import { IoPeopleOutline } from 'react-icons/io5';
 
 export const UsersGaugeChart = () => {
   const { data: userData, isLoading, error } = useUserStats();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <GaugeChartSkeleton />;
   if (error || !userData) return <NoData message="Error loading user stats" />;
 
   const premiumPercentage = (userData.premium / userData.total) * 100;

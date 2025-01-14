@@ -1,11 +1,12 @@
 import { useSessionsData } from "../../api/queries";
 import { NoData } from "../NoData";
 import { Images } from "@/utils/constant";
+import { MapChartSkeleton } from '../skeletons/ChartSkeletons';
 
 export const SessionsByCountry = () => {
   const { data: sessionData, isLoading, error } = useSessionsData();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <MapChartSkeleton />;
   if (error || !sessionData)
     return <NoData message="Error loading session data" />;
 

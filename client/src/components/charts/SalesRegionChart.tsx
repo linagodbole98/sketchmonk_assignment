@@ -1,12 +1,13 @@
 import ReactECharts from "echarts-for-react";
 import { useSalesData } from "../../api/queries";
 import { NoData } from "../NoData";
+import { RadarChartSkeleton } from '../skeletons/ChartSkeletons';
 import type { EChartsOption } from 'echarts';
 
 export const SalesRegionChart = () => {
   const { data: salesData, isLoading, error } = useSalesData();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <RadarChartSkeleton />;
   if (error || !salesData) return <NoData message="Error loading sales data" />;
 
  
