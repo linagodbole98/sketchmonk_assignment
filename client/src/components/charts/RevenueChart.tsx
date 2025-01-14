@@ -56,6 +56,18 @@ export const RevenueChart = () => {
     yAxis: {
       type: 'value',
       position: 'right',
+      min: 0,
+      minInterval: 1000,
+      scale: true,
+      axisLabel: {
+        color: '#6B7280',
+        fontSize: 12,
+        fontFamily: "'Inter', sans-serif",
+        formatter: (value: number) => {
+          if (value === 0) return '$0';
+          return `$${(value / 1000).toLocaleString()}K`;
+        }
+      },
       splitLine: {
         lineStyle: {
           color: '#F3F4F6',
@@ -67,12 +79,7 @@ export const RevenueChart = () => {
       },
       axisTick: {
         show: false,
-      },
-      axisLabel: {
-        color: '#6B7280',
-        fontSize: 12,
-        fontFamily: "'Inter', sans-serif",
-        formatter: (value: number) => `$${value / 1000}K`,
+        alignWithLabel: true
       },
     },
     series: [
@@ -143,7 +150,16 @@ export const RevenueChart = () => {
       <ReactECharts
         option={option}
         style={{ height: '100%' }}
-        opts={{ renderer: 'canvas' }}
+        opts={{ 
+          renderer: 'canvas',
+          width: 'auto',
+          height: 'auto'
+        }}
+        onEvents={{
+          mousemove: () => {},
+          mousewheel: () => {},
+          wheel: () => {}
+        }}
       />
     </div>
   );

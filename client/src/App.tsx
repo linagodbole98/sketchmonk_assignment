@@ -14,8 +14,8 @@ import { IoIosArrowDown } from "react-icons/io";
 const queryClient = new QueryClient();
 
 function App() {
-  const { overview, revenueOverTime, sessionsByCountry } = dashboardData;
-  const { totalIncome, profit, totalViews, conversionRate } = overview;
+  const { overview, revenueOverTime } = dashboardData;
+  const { totalIncome, profit } = overview;
 
   // Get the most recent values (e.g., from the last month in the revenueOverTime data)
   const latestRevenue =
@@ -209,7 +209,7 @@ function App() {
                   </div>
                 </div>
 
-                <div className="md:flex flex-wrap lg:flex-nowrap md:space-x-6 pt-8 space-y-6 md:space-y-0">
+                <div className="md:flex flex-wrap lg:flex-nowrap md:space-x-4 pt-8 space-y-6 md:space-y-0">
                   {/* Sales by Region */}
                   <div className="bg-white p-6 rounded-xl shadow-sm flex-1 border">
                     <div className="flex justify-between items-center mb-3">

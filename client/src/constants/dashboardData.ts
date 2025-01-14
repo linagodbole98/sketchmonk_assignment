@@ -39,7 +39,7 @@ export const dashboardData = {
     { country: 'Germany', value: 453, percentage: 5.4 },
   ],
   salesByRegion: {
-    regions: ['Asia', 'Africa', 'Europe', 'Antarctica', 'Australia'],
+    regions: ['Australia', 'Africa', 'Europe', 'Antarctica', 'Asia'],
     values: [2728, 2843, 3028, 1838, 2800]
   },
   ecommercePlatform: [
@@ -52,6 +52,4 @@ export const dashboardData = {
     premium: 1809, // Number of premium users
     basic: 515,
   }
- 
-  
 }

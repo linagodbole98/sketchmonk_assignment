@@ -1,21 +1,26 @@
 import { useEffect } from 'react';
 
+type EventHandler = (e: Event) => void;
+
 export const usePassiveScroll = (elementRef: React.RefObject<HTMLElement>) => {
   useEffect(() => {
     const element = elementRef.current;
     if (!element) return;
 
-    const wheelOptions = { passive: true };
-    const touchOptions = { passive: true };
+    const handleEvent: EventHandler = (e) => {
+      e.preventDefault();
+    };
 
-    element.addEventListener('wheel', () => {}, wheelOptions);
-    element.addEventListener('touchstart', () => {}, touchOptions);
-    element.addEventListener('touchmove', () => {}, touchOptions);
+    const options: AddEventListenerOptions = { passive: false };
+
+    element.addEventListener('wheel', handleEvent, options);
+    element.addEventListener('touchstart', handleEvent, options);
+    element.addEventListener('touchmove', handleEvent, options);
 
     return () => {
-      element.removeEventListener('wheel', () => {}, wheelOptions);
-      element.removeEventListener('touchstart', () => {}, touchOptions);
-      element.removeEventListener('touchmove', () => {}, touchOptions);
+      element.removeEventListener('wheel', handleEvent, options);
+      element.removeEventListener('touchstart', handleEvent, options);
+      element.removeEventListener('touchmove', handleEvent, options);
     };
   }, [elementRef]);
 };

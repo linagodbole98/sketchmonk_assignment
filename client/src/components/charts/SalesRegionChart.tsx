@@ -1,24 +1,23 @@
 import ReactECharts from "echarts-for-react";
-import { useRef } from "react";
 import { useSalesData } from "../../api/queries";
 import { NoData } from "../NoData";
-import { usePassiveScroll } from "../../hooks/usePassiveScroll";
+import type { EChartsOption } from 'echarts';
 
 export const SalesRegionChart = () => {
   const { data: salesData, isLoading, error } = useSalesData();
-  const chartRef = useRef<HTMLDivElement>(null);
-  usePassiveScroll(chartRef);
 
   if (isLoading) return <div>Loading...</div>;
   if (error || !salesData) return <NoData message="Error loading sales data" />;
 
-  const option = {
+ 
+
+  const option: EChartsOption = {
     title: {
       left: "center",
       textStyle: {
-        fontWeight: "semibold",
+        fontWeight: 500,
         fontSize: 14,
-        color: "#000", // Font color set to black
+        color: "#000",
       },
     },
     tooltip: {
@@ -30,19 +29,30 @@ export const SalesRegionChart = () => {
         </div>
       `,
     },
-    radar: {
+    radar: [{
       center: ["50%", "50%"],
       radius: "60%",
-      indicator: salesData.regions.map((region: any, index: number) => ({
-        name: region,
-        max: Math.max(...salesData.values) + 500,
-        value: salesData.values[index],
-      })),
+      indicator: salesData.regions.map((region: any, index: number) => {
+        const maxValue = Math.max(...salesData.values);
+        // Round up maxValue to nearest thousand for better tick intervals
+        const roundedMax = Math.ceil(maxValue / 1000) * 1000;
+        return {
+          name: `${region}\n$${salesData.values[index].toLocaleString()}`,
+          max: roundedMax,
+          min: 0
+        };
+      }),
       shape: "polygon",
-      splitNumber: 4, // Control number of axis ticks
+      splitNumber: 5,
+      splitArea: {
+        show: true,
+        areaStyle: {
+          color: ["#fff", "#fafafa"]
+        }
+      },
       axisLine: {
         lineStyle: {
-          color: "#E5E7EB" // Light gray lines
+          color: "#E5E7EB"
         }
       },
       splitLine: {
@@ -50,29 +60,23 @@ export const SalesRegionChart = () => {
           color: "#E5E7EB"
         }
       },
-      splitArea: {
+      axisName: {
         show: true,
-        areaStyle: {
-          color: ["#fff", "#fafafa"]
+        color: "#000",
+        fontSize: 12,
+        fontWeight: 500,
+        rich: {
+          value: {
+            color: "#6B7280",
+            fontSize: 11,
+            padding: [4, 0, 0, 0]
+          }
         }
       },
-      axisName: {
-        formatter: (name: string, indicator: any) =>
-          `{b|${name}}\n{v|${indicator.value.toLocaleString()}}`,
-        rich: {
-          b: {
-            fontWeight: "semibold",
-            fontSize: 12,
-            color: "#000", // Bold black text for region names
-          },
-          v: {
-            fontWeight: "bold",
-            fontSize: 12,
-            color: "#000", // Bold black text for values
-          },
-        },
-      },
-    },
+      axisLabel: {
+        show: false
+      }
+    }],
     series: [
       {
         type: "radar",
@@ -80,7 +84,6 @@ export const SalesRegionChart = () => {
           {
             value: salesData.values,
             name: "Sales",
-            symbol: "circle",
             symbolSize: 6,
             lineStyle: {
               color: "#287F71",
@@ -99,11 +102,20 @@ export const SalesRegionChart = () => {
   };
 
   return (
-    <div ref={chartRef} className="h-[300px] flex items-center justify-center font-sans">
+    <div className="h-[300px] flex items-center justify-center font-sans">
       <ReactECharts
         option={option}
-        style={{ height: "400px", width: "100%" }}
-        opts={{ renderer: "svg" }}
+        style={{ height: "300px", width: "100%" }}
+        opts={{ 
+          renderer: "svg",
+          width: 'auto',
+          height: 'auto'
+        }}
+        onEvents={{
+          mousemove: () => {},
+          mousewheel: () => {},
+          wheel: () => {}
+        }}
       />
     </div>
   );

@@ -63,8 +63,11 @@ export const Sidebar = () => {
     setActivePath(path);
   }, []);
 
-  const handleCollapse = () => {
-    setIsCollapsed(!isCollapsed);
+  const handleCollapse = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("Collapsing sidebar");
+    setIsCollapsed(prev => !prev);
   };
 
   return (
@@ -82,8 +85,9 @@ export const Sidebar = () => {
           )}
         </div>
         <button
+          type="button"
           onClick={handleCollapse}
-          className={`p-2 hover:bg-gray-100 rounded-md ${isCollapsed ? "ml-auto" : ""}`}
+          className="p-2 hover:bg-gray-100 rounded-md transition-colors z-10"
         >
           <RiMenu3Line className="h-6 w-6" />
         </button>
@@ -99,7 +103,7 @@ export const Sidebar = () => {
             <Link
               key={item.text}
               to={item.path}
-              className={`flex items-center ${isCollapsed ? "justify-center" : "gap-3"} p-3 rounded-lg transition-all ${
+              className={`flex items-center ${isCollapsed ? "justify-center py-3" : "gap-3 p-3"}  rounded-lg transition-all ${
                 activePath === item.path
                   ? "bg-[#287f71] text-white"
                   : "text-gray-500 hover:bg-gray-50"
@@ -123,42 +127,53 @@ export const Sidebar = () => {
         <div className="px-4 pt-4 mt-4 border-t border-gray-100">
           <nav className="space-y-1">
             {bottomMenuItems.map((item) => (
-              <div
-                key={item.text}
-                className={`flex items-center justify-between p-3 rounded-lg ${
-                  !item.isToggle && "hover:bg-gray-50"
-                }`}
-              >
-                <div className="flex items-center gap-3 text-gray-500">
-                  <item.icon className="w-5 h-5" />
-                  <span className="text-sm font-medium">{item.text}</span>
-                </div>
-                {item.isToggle ? (
-                  <Switch
-                    checked={isDemoMode}
-                    onChange={setIsDemoMode}
-                    className={`${
-                      isDemoMode ? "bg-emerald-600" : "bg-gray-200"
-                    } relative inline-flex h-5 w-10 items-center rounded-full transition-colors focus:outline-none`}
-                  >
-                    <span
+              item.isToggle ? (
+                <div
+                  key={item.text}
+                  className={`flex items-center ${isCollapsed ? "justify-center" : "justify-between"} p-3 rounded-lg`}
+                >
+                  <div className={`flex items-center ${isCollapsed ? "justify-center" : "gap-3"} text-gray-500`}>
+                    <item.icon className="w-5 h-5" />
+                    {!isCollapsed && (
+                      <span className="text-sm font-medium">{item.text}</span>
+                    )}
+                  </div>
+                  {!isCollapsed && (
+                    <Switch
+                      checked={isDemoMode}
+                      onChange={setIsDemoMode}
                       className={`${
-                        isDemoMode ? "translate-x-6" : "translate-x-1"
-                      } inline-block h-3 w-3 transform rounded-full bg-white transition-transform`}
-                    />
-                  </Switch>
-                ) : (
-                  <Link
-                    to={item.path}
-                    className="w-full h-full absolute inset-0"
-                  />
-                )}
-              </div>
+                        isDemoMode ? "bg-emerald-600" : "bg-gray-200"
+                      } relative inline-flex h-5 w-10 items-center rounded-full transition-colors focus:outline-none`}
+                    >
+                      <span
+                        className={`${
+                          isDemoMode ? "translate-x-6" : "translate-x-1"
+                        } inline-block h-3 w-3 transform rounded-full bg-white transition-transform`}
+                      />
+                    </Switch>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={item.text}
+                  to={item.path}
+                  className={`flex items-center ${isCollapsed ? "justify-center py-3" : "gap-3 p-3"}  rounded-lg text-gray-500 hover:bg-gray-50`}
+                  onClick={() => setActivePath(item.path)}
+                >
+                  <item.icon className="w-5 h-5" />
+                  {!isCollapsed && (
+                    <span className="text-sm font-medium">{item.text}</span>
+                  )}
+                </Link>
+              )
             ))}
           </nav>
         </div>
+        <div className={isCollapsed ? "hidden" : ""}>
+          <UpgradeCard />
+        </div>
       </div>
-      <UpgradeCard />
     </div>
   );
 };
