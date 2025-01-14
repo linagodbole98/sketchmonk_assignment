@@ -10,6 +10,7 @@ import { Sidebar } from "./components/layout/Sidebar";
 import { FiDownload, FiFilter, FiShare2, FiSliders } from "react-icons/fi";
 import { dashboardData } from "./constants/dashboardData";
 import { IoIosArrowDown } from "react-icons/io";
+import { WidgetManager } from "./components/dashboard/WidgetManager"; // Fixed import path
 
 const queryClient = new QueryClient();
 
@@ -118,138 +119,8 @@ function App() {
                 </div>
               </div>
 
-              {/* Page Content */}
-              <div className="p-8">
-                <div className="mb-8 flex justify-between items-center">
-                  <h1 className="text-2xl font-semibold text-gray-900">
-                    Overview
-                  </h1>
-                  <div className="flex items-center gap-2">
-                    <button className="h-9 px-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 flex items-center gap-2">
-                      <FiSliders className="w-4 h-4" />
-                      Customize Widget
-                    </button>
-                    <button className="h-9 px-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 flex items-center gap-2">
-                      <FiFilter className="w-4 h-4" />
-                      Filter
-                    </button>
-                    <button className="h-9 px-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 flex items-center gap-2">
-                      <FiShare2 className="w-4 h-4" />
-                      Share
-                    </button>
-                  </div>
-                </div>
-
-                {/* Overview Stats */}
-                <div className="mb-8">
-                  <OverviewStats />
-                </div>
-
-                {/* Charts Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-6  gap-8">
-                  {/* Revenue Chart */}
-                  <div className="md:col-span-4 bg-white p-6 rounded-xl shadow-sm border">
-                    <div className="flex justify-between items-center mb-6">
-                      <div>
-                        <h2 className="text-base font-semibold text-gray-900">
-                          Revenue Over Time
-                        </h2>
-                        <div className="flex items-center gap-6 mt-2">
-                          <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
-                            <span className="text-sm text-gray-600">
-                              Total Revenue
-                            </span>
-                            <span className="text-sm font-medium text-gray-900">
-                              ${latestRevenue.toLocaleString()}
-                            </span>
-                            <span className="text-xs text-emerald-600">
-                              +{totalIncome.percentageChange}%{" "}
-                              {/* Example for percentage change */}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-amber-400"></div>
-                            <span className="text-sm text-gray-600">
-                              Total Target
-                            </span>
-                            <span className="text-sm font-medium text-gray-900">
-                              ${latestTarget.toLocaleString()}
-                            </span>
-                            <span className="text-xs text-emerald-600">
-                              +{profit.percentageChange}%{" "}
-                              {/* Example for percentage change */}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <button className="p-1.5 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-50">
-                          <FiDownload className="w-5 h-5" />
-                        </button>
-                        <button className="p-1.5 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-50">
-                          •••
-                        </button>
-                      </div>
-                    </div>
-                    <RevenueChart />
-                  </div>
-
-                  {/* Sessions by Country */}
-                  <div className="col-span-2 bg-white p-6 rounded-xl shadow-sm border">
-                    <div className="flex justify-between items-center mb-6">
-                      <h2 className="text-base font-semibold text-gray-900">
-                        Sessions by Country
-                      </h2>
-                      <button className="text-gray-400 hover:text-gray-600">
-                        •••
-                      </button>
-                    </div>
-                    <SessionsByCountry />
-                  </div>
-                </div>
-
-                <div className="md:flex flex-wrap lg:flex-nowrap md:space-x-4 pt-8 space-y-6 md:space-y-0">
-                  {/* Sales by Region */}
-                  <div className="bg-white p-6 rounded-xl shadow-sm flex-1 border">
-                    <div className="flex justify-between items-center mb-3">
-                      <h2 className="text-base font-semibold text-gray-900">
-                        Sales by Region
-                      </h2>
-                      <button className="text-gray-400 hover:text-gray-600">
-                        •••
-                      </button>
-                    </div>
-                    <SalesRegionChart />
-                  </div>
-
-                  {/* Sales by Platform */}
-                  <div className="bg-white p-6 rounded-xl shadow-sm flex-1 justify-center border">
-                    <div className="flex justify-between items-center mb-6">
-                      <h2 className="text-base font-semibold text-gray-900">
-                        Sales by e-commerce platform
-                      </h2>
-                      <button className="text-gray-400 hover:text-gray-600">
-                        •••
-                      </button>
-                    </div>
-                    <EcommercePlatformChart />
-                  </div>
-
-                  {/* Users Gauge */}
-                  <div className="bg-white p-6 rounded-xl shadow-sm flex-1 border ">
-                    <div className="flex justify-between items-center mb-6">
-                      <h2 className="text-base font-semibold text-gray-900">
-                        Registered users
-                      </h2>
-                      <button className="text-gray-400 hover:text-gray-600">
-                        •••
-                      </button>
-                    </div>
-                    <UsersGaugeChart />
-                  </div>
-                </div>
-              </div>
+              {/* Dashboard Content */}
+              <WidgetManager />
             </div>
           </div>
         </div>
