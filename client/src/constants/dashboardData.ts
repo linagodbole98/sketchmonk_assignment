@@ -39,17 +39,19 @@ export const dashboardData = {
     { country: 'Germany', value: 453, percentage: 5.4 },
   ],
   salesByRegion: {
-    regions: ['North', 'South', 'East', 'West', 'Central'],
-    values: [2728, 2843, 3028, 1838, 800]
+    regions: ['Asia', 'Africa', 'Europe', 'Antarctica', 'Australia'],
+    values: [2728, 2843, 3028, 1838, 2800]
   },
   ecommercePlatform: [
     { platform: 'Amazon', percentage: 45 },
-    { platform: 'Shopify', percentage: 25 },
-    { platform: 'Others', percentage: 30 }
+    { platform: 'Tokopedia', percentage: 25 },
+    { platform: 'Alibaba', percentage: 35 }
   ],
   registeredUsers: {
-    total: 2324,
-    active: 1809,
-    inactive: 515
+    total: 2324, // Total number of users
+    premium: 1809, // Number of premium users
+    basic: 515,
   }
+ 
+  
 }

@@ -2,8 +2,6 @@ import ReactECharts from 'echarts-for-react';
 import { useRevenueData } from '../../api/queries';
 import { NoData } from '../NoData';
 
-const months = ['Mar 2023', 'Jun 2023', 'Sep 2023', 'Dec 2023', 'Mar 2024', 'Jun 2024', 'Sep 2024', 'Dec 2024'];
-
 export const RevenueChart = () => {
   const { data: revenueData, isLoading, error } = useRevenueData();
 
@@ -30,30 +28,30 @@ export const RevenueChart = () => {
           <div style="font-size: 12px;">Revenue: $${revenue.toLocaleString()}</div>
           <div style="font-size: 12px;">Target: $${target.toLocaleString()}</div>
         `;
-      }
+      },
     },
     grid: {
       left: '5%',
       right: '5%',
-      top: '5%',
-      bottom: '8%',
-      containLabel: true
+      top: '10%',
+      bottom: '10%',
+      containLabel: true,
     },
     xAxis: {
       type: 'category',
       boundaryGap: false,
       data: revenueData.months,
       axisLine: {
-        show: false
+        show: false,
       },
       axisTick: {
-        show: false
+        show: false,
       },
       axisLabel: {
         color: '#6B7280',
         fontSize: 12,
         fontFamily: "'Inter', sans-serif",
-      }
+      },
     },
     yAxis: {
       type: 'value',
@@ -61,44 +59,44 @@ export const RevenueChart = () => {
       splitLine: {
         lineStyle: {
           color: '#F3F4F6',
-          type: 'solid'
-        }
+          type: 'solid',
+        },
       },
       axisLine: {
-        show: false
+        show: false,
       },
       axisTick: {
-        show: false
+        show: false,
       },
       axisLabel: {
         color: '#6B7280',
         fontSize: 12,
         fontFamily: "'Inter', sans-serif",
-        formatter: (value: number) => `$${value/1000}K`
-      }
+        formatter: (value: number) => `$${value / 1000}K`,
+      },
     },
     series: [
       {
         name: 'Revenue',
         type: 'line',
         smooth: true,
-        symbol: 'none',
+        symbol: 'circle',
         symbolSize: 6,
         data: revenueData.totalRevenue,
         lineStyle: {
           width: 2,
-          color: '#10B981'
+          color: '#287F71', // Green for Revenue
         },
         itemStyle: {
-          color: '#10B981',
-          borderWidth: 2
+          color: '#287F71',
+          borderWidth: 2,
         },
         emphasis: {
           itemStyle: {
             borderWidth: 3,
-            borderColor: '#10B981',
-            color: '#fff'
-          }
+            borderColor: '#287F71',
+            color: '#fff',
+          },
         },
         areaStyle: {
           color: {
@@ -107,41 +105,37 @@ export const RevenueChart = () => {
             y: 0,
             x2: 0,
             y2: 1,
-            colorStops: [{
-              offset: 0,
-              color: 'rgba(16, 185, 129, 0.2)'
-            }, {
-              offset: 1,
-              color: 'rgba(16, 185, 129, 0)'
-            }]
-          }
-        }
+            colorStops: [
+              { offset: 0, color: 'rgba(16, 185, 129, 0.3)' },
+              { offset: 1, color: 'rgba(16, 185, 129, 0)' },
+            ],
+          },
+        },
       },
       {
         name: 'Target',
         type: 'line',
         smooth: true,
-        symbol: 'none',
+        symbol: 'diamond',
         symbolSize: 6,
         data: revenueData.totalTarget,
         lineStyle: {
           width: 2,
-          color: '#6366f1',
-          type: 'dashed'
+          color: '#EB882A', // Purple for Target
         },
         itemStyle: {
-          color: '#6366f1',
-          borderWidth: 2
+          color: '#EB882A',
+          borderWidth: 2,
         },
         emphasis: {
           itemStyle: {
             borderWidth: 3,
-            borderColor: '#6366f1',
-            color: '#fff'
-          }
-        }
-      }
-    ]
+            borderColor: '#EB882A',
+            color: '#fff',
+          },
+        },
+      },
+    ],
   };
 
   return (

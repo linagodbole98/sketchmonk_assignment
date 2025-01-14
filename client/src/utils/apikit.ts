@@ -43,7 +43,7 @@ export default async function apiKit2({
 		});
 
 		if (!response.ok) {
-			throw new Error("Request failed", { cause: { response } });
+			throw new Error("Request failed");
 		}
 
 		const result = await response.json();
