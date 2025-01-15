@@ -1,28 +1,13 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter as Router } from "react-router-dom";
-import { OverviewStats } from "./components/OverviewStats";
-import { RevenueChart } from "./components/charts/RevenueChart";
-import { SalesRegionChart } from "./components/charts/SalesRegionChart";
-import { EcommercePlatformChart } from "./components/charts/EcommercePlatformChart";
-import { UsersGaugeChart } from "./components/charts/UsersGaugeChart";
-import { SessionsByCountry } from "./components/charts/SessionsByCountry";
 import { Sidebar } from "./components/layout/Sidebar";
-import { FiDownload, FiFilter, FiShare2, FiSliders } from "react-icons/fi";
-import { dashboardData } from "./constants/dashboardData";
+import { FiDownload } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
 import { WidgetManager } from "./components/dashboard/WidgetManager"; // Fixed import path
 
 const queryClient = new QueryClient();
 
 function App() {
-  const { overview, revenueOverTime } = dashboardData;
-  const { totalIncome, profit } = overview;
-
-  // Get the most recent values (e.g., from the last month in the revenueOverTime data)
-  const latestRevenue =
-    revenueOverTime.totalRevenue[revenueOverTime.totalRevenue.length - 1];
-  const latestTarget =
-    revenueOverTime.totalTarget[revenueOverTime.totalTarget.length - 1];
 
   return (
     <QueryClientProvider client={queryClient}>
