@@ -3,10 +3,7 @@ import { dashboardController } from '../controllers/dashboardController';
 
 const router = express.Router();
 
-// Get all dashboard data
 router.get('/dashboard', dashboardController.getDashboardData);
-
-// Seed database
-router.post('/seed', dashboardController.seedData);
+router.put('/dashboard', dashboardController.updateDashboardData);
 
 export default router;

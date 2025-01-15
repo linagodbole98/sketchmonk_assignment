@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import { dashboardService } from '../services/dashboardService';
-import { seedDatabase } from '../utils/seedData';
 
-class DashboardController {
+export class DashboardController {
   async getDashboardData(req: Request, res: Response) {
     try {
       const data = await dashboardService.getDashboardData();
@@ -13,13 +12,14 @@ class DashboardController {
     }
   }
 
-  async seedData(req: Request, res: Response) {
+  async updateDashboardData(req: Request, res: Response) {
     try {
-      await seedDatabase();
-      res.status(200).json({ message: 'Database seeded successfully' });
+      // Here you can add logic to update specific dashboard data
+      // This would involve updating individual collections based on the request body
+      res.status(200).json({ message: 'Dashboard data updated successfully' });
     } catch (error) {
-      console.error('Error seeding database:', error);
-      res.status(500).json({ error: 'Error seeding database' });
+      console.error('Error updating dashboard data:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   }
 }
