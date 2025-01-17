@@ -32,11 +32,11 @@ export const RevenueChart = () => {
       },
     },
     grid: {
-      left: '5%',
-      right: '5%',
-      top: '10%',
-      bottom: '10%',
-      containLabel: true,
+      left: '8%',
+      right: '8%',
+      top: '15%',
+      bottom: '12%',
+      containLabel: true
     },
     xAxis: {
       type: 'category',
@@ -52,6 +52,7 @@ export const RevenueChart = () => {
         color: '#6B7280',
         fontSize: 12,
         fontFamily: "'Inter', sans-serif",
+        interval: 'auto',
       },
     },
     yAxis: {
@@ -80,7 +81,6 @@ export const RevenueChart = () => {
       },
       axisTick: {
         show: false,
-        alignWithLabel: true
       },
     },
     series: [
@@ -93,18 +93,12 @@ export const RevenueChart = () => {
         data: revenueData.totalRevenue,
         lineStyle: {
           width: 2,
-          color: '#287F71', // Green for Revenue
+          color: '#287F71',
         },
         itemStyle: {
           color: '#287F71',
           borderWidth: 2,
-        },
-        emphasis: {
-          itemStyle: {
-            borderWidth: 3,
-            borderColor: '#287F71',
-            color: '#fff',
-          },
+          borderColor: '#fff',
         },
         areaStyle: {
           color: {
@@ -113,54 +107,37 @@ export const RevenueChart = () => {
             y: 0,
             x2: 0,
             y2: 1,
-            colorStops: [
-              { offset: 0, color: 'rgba(16, 185, 129, 0.3)' },
-              { offset: 1, color: 'rgba(16, 185, 129, 0)' },
-            ],
-          },
-        },
+            colorStops: [{
+              offset: 0,
+              color: 'rgba(40, 127, 113, 0.2)'
+            }, {
+              offset: 1,
+              color: 'rgba(40, 127, 113, 0.01)'
+            }],
+          }
+        }
       },
       {
         name: 'Target',
         type: 'line',
         smooth: true,
-        symbol: 'diamond',
-        symbolSize: 6,
-        data: revenueData.totalTarget,
+        symbol: 'none',
+        data: revenueData.targetRevenue,
         lineStyle: {
           width: 2,
-          color: '#EB882A', // Purple for Target
+          type: 'dashed',
+          color: '#6B7280',
         },
-        itemStyle: {
-          color: '#EB882A',
-          borderWidth: 2,
-        },
-        emphasis: {
-          itemStyle: {
-            borderWidth: 3,
-            borderColor: '#EB882A',
-            color: '#fff',
-          },
-        },
-      },
-    ],
+      }
+    ]
   };
 
   return (
-    <div className="h-[300px] relative">
-      <ReactECharts
+    <div className="h-full w-full">
+      <ReactECharts 
         option={option}
-        style={{ height: '100%' }}
-        opts={{ 
-          renderer: 'canvas',
-          width: 'auto',
-          height: 'auto'
-        }}
-        onEvents={{
-          mousemove: () => {},
-          mousewheel: () => {},
-          wheel: () => {}
-        }}
+        style={{ height: '100%', width: '100%' }}
+        opts={{ renderer: 'svg' }}
       />
     </div>
   );
