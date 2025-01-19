@@ -1,93 +1,122 @@
-import ReactECharts from 'echarts-for-react';
-import { useSalesData } from '../../api/queries';
-import { NoData } from '../NoData';
+import ReactECharts from "echarts-for-react";
+import { useSalesData } from "../../api/queries";
+import { NoData } from "../NoData";
+import { RadarChartSkeleton } from '../skeletons/ChartSkeletons';
+import type { EChartsOption } from 'echarts';
 
 export const SalesRegionChart = () => {
   const { data: salesData, isLoading, error } = useSalesData();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <RadarChartSkeleton />;
   if (error || !salesData) return <NoData message="Error loading sales data" />;
 
-  const option = {
-    tooltip: {
-      trigger: 'item',
-      formatter: (params: any) => {
-        return `
-          <div class="font-sans p-1">
-            <div class="font-semibold">${params.name}</div>
-            <div>Sales: ${params.value.toLocaleString()}</div>
-          </div>
-        `;
-      }
+ 
+
+  const option: EChartsOption = {
+    title: {
+      left: "center",
+      textStyle: {
+        fontWeight: 500,
+        fontSize: 14,
+        color: "#000",
+      },
     },
-    radar: {
-      indicator: salesData.regions.map((region: any) => ({ name: region, max: Math.max(...salesData.values) })),
-      splitNumber: 4,
-      axisName: {
-        color: '#666',
-        fontSize: 12,
-      },
-      splitLine: {
-        lineStyle: {
-          color: '#eaeaea'
-        }
-      },
+    tooltip: {
+      trigger: "item",
+      formatter: (params: any) => `
+        <div style="font-family: sans-serif; padding: 4px;">
+          <div style="font-size: 14px;margin-bottom: 8px;">${params.name}</div>
+          <div style="font-weight: bold; font-size: 14px;">Sales: ${params.value.toLocaleString()}</div>
+        </div>
+      `,
+    },
+    radar: [{
+      center: ["50%", "50%"],
+      radius: "60%",
+      indicator: salesData.regions.map((region: any, index: number) => {
+        const maxValue = Math.max(...salesData.values);
+        // Round up maxValue to nearest thousand for better tick intervals
+        const roundedMax = Math.ceil(maxValue / 1000) * 1000;
+        return {
+          name: `${region}\n$${salesData.values[index].toLocaleString()}`,
+          max: roundedMax,
+          min: 0
+        };
+      }),
+      shape: "polygon",
+      splitNumber: 5,
       splitArea: {
         show: true,
         areaStyle: {
-          color: ['rgba(255,255,255,0)', 'rgba(245,245,245,0.2)']
+          color: ["#fff", "#fafafa"]
         }
       },
       axisLine: {
         lineStyle: {
-          color: '#eaeaea'
+          color: "#E5E7EB"
         }
+      },
+      splitLine: {
+        lineStyle: {
+          color: "#E5E7EB"
+        }
+      },
+      axisName: {
+        show: true,
+        color: "#000",
+        fontSize: 12,
+        fontWeight: 500,
+        rich: {
+          value: {
+            color: "#6B7280",
+            fontSize: 11,
+            padding: [4, 0, 0, 0]
+          }
+        }
+      },
+      axisLabel: {
+        show: false
       }
-    },
+    }],
     series: [
       {
-        type: 'radar',
+        type: "radar",
         data: [
           {
             value: salesData.values,
-            name: 'Sales',
-            symbol: 'circle',
+            name: "Sales",
             symbolSize: 6,
             lineStyle: {
-              color: '#10b981',
-              width: 2
+              color: "#287F71",
+              width: 2,
             },
             areaStyle: {
-              color: {
-                type: 'linear',
-                x: 0,
-                y: 0,
-                x2: 0,
-                y2: 1,
-                colorStops: [{
-                  offset: 0,
-                  color: 'rgba(16, 185, 129, 0.2)'
-                }, {
-                  offset: 1,
-                  color: 'rgba(16, 185, 129, 0)'
-                }]
-              }
+              color: "rgba(16, 185, 129, 0.2)",
             },
             itemStyle: {
-              color: '#10b981'
-            }
-          }
-        ]
-      }
-    ]
+              color: "#287F71",
+            },
+          },
+        ],
+      },
+    ],
   };
 
   return (
-    <div className="h-[300px]">
+    <div className="h-[300px] flex items-center justify-center font-sans">
       <ReactECharts
         option={option}
-        style={{ height: '100%' }}
-        opts={{ renderer: 'svg' }}
+        style={{ height: "300px", width: "100%" }}
+        opts={{ 
+          renderer: "svg",
+          width: 'auto',
+          height: 'auto'
+        }}
+        onEvents={{
+          mousemove: () => {},
+          mousewheel: () => {},
+          wheel: () => {}
+        }}
       />
     </div>
   );
