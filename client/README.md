@@ -1,8 +1,43 @@
-# React + Vite
+# SketchMonk Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend application for SketchMonk, built with React and Vite.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js (v14 or higher)
+- npm (v6 or higher)
+
+## Setup Instructions
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Create a `.env` file in the root directory with the following content:
+```
+VITE_API_URL=http://localhost:5000
+```
+
+## Running the Application
+
+To start the development server:
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`
+
+## Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run lint` - Run ESLint
+- `npm run preview` - Preview production build locally
+
+## Features
+
+- Real-time drawing canvas
+- Save and load drawings
+- User authentication
+- Gallery view for saved drawings
