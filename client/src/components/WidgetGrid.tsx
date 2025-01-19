@@ -50,7 +50,7 @@ export const WidgetGrid = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [availableWidgets, setAvailableWidgets] = useState<Widget[]>([]);
 
-  const handleLayoutChange = useCallback((layout: any, allLayouts: any) => {
+  const handleLayoutChange = useCallback(( allLayouts: any) => {
     setLayouts(allLayouts);
     // Save to localStorage or backend
     localStorage.setItem('dashboardLayouts', JSON.stringify(allLayouts));

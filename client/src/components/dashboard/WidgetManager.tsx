@@ -7,13 +7,12 @@ import { SalesRegionChart } from "../charts/SalesRegionChart";
 import { EcommercePlatformChart } from "../charts/EcommercePlatformChart";
 import { UsersGaugeChart } from "../charts/UsersGaugeChart";
 import { SessionsByCountry } from "../charts/SessionsByCountry";
-import { FiPlus, FiEdit2, FiSave, FiTrash2, FiShare2, FiFilter } from "react-icons/fi";
-import { OverviewStats } from "../OverviewStats";
+import { FiPlus, FiEdit2, FiSave, FiTrash2 } from "react-icons/fi";
 import { getDashboardData, DashboardData } from "../../utils/api";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-const availableWidgets = {
+const availableWidgets:any = {
   revenue: {
     component: RevenueChart,
     title: 'Revenue Over Time',
@@ -117,13 +116,13 @@ export const WidgetManager: React.FC = () => {
     return savedWidgets ? JSON.parse(savedWidgets) : defaultWidgets;
   });
 
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [_, setDashboardData] = useState<DashboardData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleLayoutChange = useCallback((currentLayout: any, allLayouts: any) => {
+  const handleLayoutChange = useCallback(( allLayouts: any) => {
     setLayouts(allLayouts);
     localStorage.setItem("dashboardLayout", JSON.stringify(allLayouts));
   }, []);
@@ -139,7 +138,7 @@ export const WidgetManager: React.FC = () => {
   }, [layouts, widgets]);
 
   const addWidget = useCallback(
-    (widgetType: keyof typeof availableWidgets) => {
+    (widgetType: keyof typeof availableWidgets | any) => {
       const newId = `${widgetType}-${Date.now()}`;
       
       const newWidget = {
@@ -266,7 +265,7 @@ export const WidgetManager: React.FC = () => {
             </button>
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border z-10">
-                {Object.entries(availableWidgets).map(([key, widget]) => (
+                {Object.entries(availableWidgets).map(([key, widget]:any) => (
                   <button
                     key={key}
                     onClick={() => addWidget(key as keyof typeof availableWidgets)}

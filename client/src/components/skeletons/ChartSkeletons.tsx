@@ -1,4 +1,4 @@
-import { FiBarChart2 } from "react-icons/fi";
+
 
 export const LineChartSkeleton = () => (
   <div className="animate-pulse h-[300px] bg-white rounded-lg p-4">

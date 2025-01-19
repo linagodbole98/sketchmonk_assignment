@@ -7,7 +7,7 @@ export const RevenueChart = () => {
   const { data: revenueData, isLoading, error } = useRevenueData();
 
   if (isLoading) return <LineChartSkeleton />;
-  if (error || !revenueData) return <NoData message="Error loading revenue data" />;
+  if (error || !revenueData)  return <NoData message="Error loading revenue data" />;
 
   const option = {
     tooltip: {
@@ -23,7 +23,7 @@ export const RevenueChart = () => {
       formatter: (params: any) => {
         const date = params[0].name;
         const revenue = params[0].value;
-        const target = params[1].value;
+        const target = params[1]?.value;
         return `
           <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">${date}</div>
           <div style="font-size: 12px;">Revenue: $${revenue.toLocaleString()}</div>
@@ -122,7 +122,7 @@ export const RevenueChart = () => {
         type: 'line',
         smooth: true,
         symbol: 'none',
-        data: revenueData.targetRevenue,
+        data: revenueData?.totalRevenue,
         lineStyle: {
           width: 2,
           type: 'dashed',
