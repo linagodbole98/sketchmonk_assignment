@@ -9,6 +9,7 @@ import { UsersGaugeChart } from "../charts/UsersGaugeChart";
 import { SessionsByCountry } from "../charts/SessionsByCountry";
 import { FiPlus, FiEdit2, FiSave, FiTrash2 } from "react-icons/fi";
 import { getDashboardData, DashboardData } from "../../utils/api";
+import { saveLayout, saveWidgets, loadLayout, loadWidgets, clearStoredLayouts } from "../../utils/layoutStorage";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -72,48 +73,52 @@ const availableWidgets:any = {
 
 const defaultLayout = {
   lg: [
-    { i: 'revenue-default', x: 0, y: 0, w: 12, h: 6, minW: 6, maxW: 12, minH: 4, maxH: 8 },
-    { i: 'salesRegion-default', x: 0, y: 6, w: 6, h: 6, minW: 4, maxW: 8, minH: 4, maxH: 8 },
-    { i: 'ecommercePlatform-default', x: 6, y: 6, w: 6, h: 6, minW: 4, maxW: 8, minH: 4, maxH: 8 },
-    { i: 'usersGauge-default', x: 0, y: 12, w: 6, h: 6, minW: 4, maxW: 8, minH: 4, maxH: 8 },
-    { i: 'sessionsByCountry-default', x: 6, y: 12, w: 6, h: 6, minW: 4, maxW: 8, minH: 4, maxH: 8 }
+    { i: 'revenue-default', x: 0, y: 2, w: 8, h: 4 },    // Revenue chart
+    { i: 'salesRegion-default', x: 0, y: 6, w: 4, h: 4 },      // Sales by region
+    { i: 'ecommercePlatform-default', x: 4, y: 6, w: 4, h: 4 },   // E-commerce platforms
+    { i: 'usersGauge-default', x: 8, y: 6, w: 4, h: 4 },      // Users overview
+    { i: 'sessionsByCountry-default', x: 8, y: 2, w: 4, h: 4 },   // Sessions by country
   ],
   md: [
-    { i: 'revenue-default', x: 0, y: 0, w: 12, h: 6, minW: 6, maxW: 12, minH: 4, maxH: 8 },
-    { i: 'salesRegion-default', x: 0, y: 6, w: 6, h: 6, minW: 4, maxW: 8, minH: 4, maxH: 8 },
-    { i: 'ecommercePlatform-default', x: 6, y: 6, w: 6, h: 6, minW: 4, maxW: 8, minH: 4, maxH: 8 },
-    { i: 'usersGauge-default', x: 0, y: 12, w: 6, h: 6, minW: 4, maxW: 8, minH: 4, maxH: 8 },
-    { i: 'sessionsByCountry-default', x: 6, y: 12, w: 6, h: 6, minW: 4, maxW: 8, minH: 4, maxH: 8 }
+    { i: 'revenue-default', x: 0, y: 2, w: 8, h: 4 },
+    { i: 'salesRegion-default', x: 0, y: 6, w: 4, h: 4 },
+    { i: 'ecommercePlatform-default', x: 4, y: 6, w: 4, h: 4 },
+    { i: 'usersGauge-default', x: 8, y: 6, w: 4, h: 4 },
+    { i: 'sessionsByCountry-default', x: 8, y: 2, w: 4, h: 4 },
   ],
   sm: [
-    { i: 'revenue-default', x: 0, y: 0, w: 6, h: 6, minW: 6, maxW: 6, minH: 4, maxH: 8 },
-    { i: 'salesRegion-default', x: 0, y: 6, w: 6, h: 6, minW: 4, maxW: 6, minH: 4, maxH: 8 },
-    { i: 'ecommercePlatform-default', x: 0, y: 12, w: 6, h: 6, minW: 4, maxW: 6, minH: 4, maxH: 8 },
-    { i: 'usersGauge-default', x: 0, y: 18, w: 6, h: 6, minW: 4, maxW: 6, minH: 4, maxH: 8 },
-    { i: 'sessionsByCountry-default', x: 0, y: 24, w: 6, h: 6, minW: 4, maxW: 6, minH: 4, maxH: 8 }
+    { i: 'revenue-default', x: 0, y: 0, w: 6, h: 4 },
+    { i: 'salesRegion-default', x: 0, y: 4, w: 6, h: 4 },
+    { i: 'ecommercePlatform-default', x: 0, y: 8, w: 6, h: 4 },
+    { i: 'usersGauge-default', x: 0, y: 12, w: 6, h: 4 },
+    { i: 'sessionsByCountry-default', x: 0, y: 16, w: 6, h: 4 },
   ],
   xs: [
-    { i: 'revenue-default', x: 0, y: 0, w: 4, h: 6, minW: 4, maxW: 4, minH: 4, maxH: 8 },
-    { i: 'salesRegion-default', x: 0, y: 6, w: 4, h: 6, minW: 4, maxW: 4, minH: 4, maxH: 8 },
-    { i: 'ecommercePlatform-default', x: 0, y: 12, w: 4, h: 6, minW: 4, maxW: 4, minH: 4, maxH: 8 },
-    { i: 'usersGauge-default', x: 0, y: 18, w: 4, h: 6, minW: 4, maxW: 4, minH: 4, maxH: 8 },
-    { i: 'sessionsByCountry-default', x: 0, y: 24, w: 4, h: 6, minW: 4, maxW: 4, minH: 4, maxH: 8 }
+    { i: 'revenue-default', x: 0, y: 0, w: 4, h: 4 },
+    { i: 'salesRegion-default', x: 0, y: 4, w: 4, h: 4 },
+    { i: 'ecommercePlatform-default', x: 0, y: 8, w: 4, h: 4 },
+    { i: 'usersGauge-default', x: 0, y: 12, w: 4, h: 4 },
+    { i: 'sessionsByCountry-default', x: 0, y: 16, w: 4, h: 4 },
   ]
 };
 
 export const WidgetManager: React.FC = () => {
-  const [layouts, setLayouts] = useState(() => {
-    const savedLayout = localStorage.getItem("dashboardLayout");
-    return savedLayout ? JSON.parse(savedLayout) : defaultLayout;
-  });
+  // Clear old layout data on first load
+  useEffect(() => {
+    const hasCleared = localStorage.getItem('layoutCleared');
+    if (!hasCleared) {
+      clearStoredLayouts();
+      localStorage.setItem('layoutCleared', 'true');
+    }
+  }, []);
 
+  const [layouts, setLayouts] = useState(() => loadLayout(defaultLayout));
   const [widgets, setWidgets] = useState(() => {
-    const savedWidgets = localStorage.getItem("dashboardWidgets");
     const defaultWidgets = defaultLayout.lg.map(item => ({
       ...item,
       type: item.i.split('-')[0]
     }));
-    return savedWidgets ? JSON.parse(savedWidgets) : defaultWidgets;
+    return loadWidgets(defaultWidgets);
   });
 
   const [_, setDashboardData] = useState<DashboardData | null>(null);
@@ -122,75 +127,81 @@ export const WidgetManager: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleLayoutChange = useCallback(( allLayouts: any) => {
-    setLayouts(allLayouts);
-    localStorage.setItem("dashboardLayout", JSON.stringify(allLayouts));
-  }, []);
-
+  // Save layouts whenever they change
   useEffect(() => {
-    localStorage.setItem("dashboardWidgets", JSON.stringify(widgets));
+    if (layouts) {
+      saveLayout(layouts);
+    }
+  }, [layouts]);
+
+  // Save widgets whenever they change
+  useEffect(() => {
+    if (widgets) {
+      saveWidgets(widgets);
+    }
   }, [widgets]);
 
+  const handleLayoutChange = useCallback((currentLayout: any, allLayouts: any) => {
+    setLayouts(allLayouts);
+  }, []);
+
   const handleSave = useCallback(() => {
-    localStorage.setItem("dashboardLayout", JSON.stringify(layouts));
-    localStorage.setItem("dashboardWidgets", JSON.stringify(widgets));
+    saveLayout(layouts);
+    saveWidgets(widgets);
     setIsEditing(false);
   }, [layouts, widgets]);
 
-  const addWidget = useCallback(
-    (widgetType: keyof typeof availableWidgets | any) => {
-      const newId = `${widgetType}-${Date.now()}`;
-      
-      const newWidget = {
-        i: newId,
-        x: 0,
-        y: Infinity,
-        w: 6,
-        h: 6,
-        minW: 4,
-        maxW: 12,
-        minH: 4,
-        maxH: 8,
-        type: widgetType,
-      };
+  const addWidget = useCallback((widgetType: string) => {
+    const newId = `${widgetType}-${Date.now()}`;
+    const widgetConfig = availableWidgets[widgetType];
+    
+    const newWidget = {
+      i: newId,
+      type: widgetType,
+      ...widgetConfig
+    };
 
-      setWidgets((prevWidgets: any) => [...prevWidgets, newWidget]);
+    const updatedWidgets = [...widgets, newWidget];
+    setWidgets(updatedWidgets);
+    saveWidgets(updatedWidgets);
 
-      setLayouts((prevLayouts: any) => {
-        const newLayouts = { ...prevLayouts };
-        ['lg', 'md', 'sm', 'xs'].forEach(breakpoint => {
-          if (!newLayouts[breakpoint]) newLayouts[breakpoint] = [];
-          newLayouts[breakpoint] = [...newLayouts[breakpoint], {
-            ...newWidget,
-            w: breakpoint === 'lg' || breakpoint === 'md' ? 6 : 
-               breakpoint === 'sm' ? 6 : 4
-          }];
-        });
-        return newLayouts;
+    setLayouts(prevLayouts => {
+      const newLayouts = { ...prevLayouts };
+      ['lg', 'md', 'sm', 'xs'].forEach(breakpoint => {
+        if (!newLayouts[breakpoint]) newLayouts[breakpoint] = [];
+        newLayouts[breakpoint] = [...newLayouts[breakpoint], {
+          i: newId,
+          x: 0,
+          y: Infinity,
+          w: breakpoint === 'lg' ? 8 : breakpoint === 'md' ? 6 : 4,
+          h: 4
+        }];
       });
+      saveLayout(newLayouts);
+      return newLayouts;
+    });
 
-      setIsDropdownOpen(false);
-    },
-    []
-  );
+    setIsDropdownOpen(false);
+  }, [widgets]);
 
   const removeWidget = useCallback((widgetId: string) => {
-    const updatedWidgets = widgets.filter((widget: { i: string; }) => widget.i !== widgetId);
+    const updatedWidgets = widgets.filter(widget => widget.i !== widgetId);
     setWidgets(updatedWidgets);
-
-    const updatedLayouts = { ...layouts };
-    ['lg', 'md', 'sm', 'xs'].forEach(breakpoint => {
-      if (updatedLayouts[breakpoint]) {
-        updatedLayouts[breakpoint] = updatedLayouts[breakpoint].filter(
-          (          layout: { i: string; }) => layout.i !== widgetId
-        );
-      }
+    saveWidgets(updatedWidgets);
+    
+    setLayouts(prevLayouts => {
+      const newLayouts = { ...prevLayouts };
+      ['lg', 'md', 'sm', 'xs'].forEach(breakpoint => {
+        if (newLayouts[breakpoint]) {
+          newLayouts[breakpoint] = newLayouts[breakpoint].filter(
+            (layout: { i: string }) => layout.i !== widgetId
+          );
+        }
+      });
+      saveLayout(newLayouts);
+      return newLayouts;
     });
-    setLayouts(updatedLayouts);
-
-    localStorage.setItem('dashboardWidgets', JSON.stringify(updatedWidgets));
-    localStorage.setItem('dashboardLayout', JSON.stringify(updatedLayouts));
-  }, [widgets, layouts]);
+  }, [widgets]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -232,20 +243,18 @@ export const WidgetManager: React.FC = () => {
   }
 
   return (
-    <div className="py-4">
-      <div className="mb-4 flex justify-between items-center border-y bg-white py-2 px-4">
+    <div className="min-h-screen bg-gray-50">
+      <div className="flex justify-between items-center px-4 py-3 bg-white border-b">
         <h1 className="text-2xl font-semibold">Overview</h1>
         <div className="flex items-center gap-2">
           {isEditing ? (
-            <>
-              <button
-                onClick={handleSave}
-                className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-white bg-emerald-600 rounded-lg hover:bg-emerald-700"
-              >
-                <FiSave className="w-4 h-4" />
-                Save Layout
-              </button>
-            </>
+            <button
+              onClick={handleSave}
+              className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-white bg-emerald-600 rounded-lg hover:bg-emerald-700"
+            >
+              <FiSave className="w-4 h-4" />
+              Save Layout
+            </button>
           ) : (
             <button
               onClick={() => setIsEditing(true)}
@@ -268,7 +277,7 @@ export const WidgetManager: React.FC = () => {
                 {Object.entries(availableWidgets).map(([key, widget]:any) => (
                   <button
                     key={key}
-                    onClick={() => addWidget(key as keyof typeof availableWidgets)}
+                    onClick={() => addWidget(key)}
                     className="w-full px-4 py-2 text-left hover:bg-gray-100 first:rounded-t-lg last:rounded-b-lg"
                   >
                     <div className="font-medium">{widget.title}</div>
@@ -287,9 +296,9 @@ export const WidgetManager: React.FC = () => {
           layouts={layouts}
           breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480 }}
           cols={{ lg: 12, md: 12, sm: 6, xs: 4 }}
-          rowHeight={80}
+          rowHeight={140}
           margin={[16, 16]}
-          containerPadding={[16, 0]}
+          containerPadding={[16, 16]}
           onLayoutChange={handleLayoutChange}
           isDraggable={isEditing}
           isResizable={isEditing}
@@ -297,14 +306,14 @@ export const WidgetManager: React.FC = () => {
           compactType="vertical"
           preventCollision={false}
         >
-          {widgets.map((widget: { type: any; i: React.Key | null | undefined|any; }) => {
+          {widgets.map((widget: { type: any; i: React.Key | null | undefined | any; }) => {
             const widgetType = widget.type || widget.i.split('-')[0];
             const WidgetComponent = availableWidgets[widgetType]?.component;
             const widgetConfig = availableWidgets[widgetType];
             
             return (
-              <div key={widget.i} className="bg-white rounded-lg shadow-sm border overflow-hidden" style={{ height: '100%' }}>
-                <div className="p-4 h-full">
+              <div key={widget.i} className="bg-white rounded-lg shadow-sm border overflow-hidden">
+                <div className="h-full p-4">
                   <div className="flex justify-between items-center mb-4">
                     <div>
                       <h3 className="text-sm font-medium text-gray-900">{widgetConfig?.title}</h3>
@@ -314,7 +323,7 @@ export const WidgetManager: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => removeWidget(widget.i)}
-                        className="p-1.5 text-gray-500 hover:text-red-500 hover:bg-gray-100 rounded-full z-50"
+                        className="p-1.5 text-gray-500 hover:text-red-500 hover:bg-gray-100 rounded-full"
                       >
                         <FiTrash2 className="w-4 h-4" />
                       </button>
