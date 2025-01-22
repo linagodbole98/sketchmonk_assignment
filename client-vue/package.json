@@ -24,6 +24,7 @@
     "tailwindcss": "^3.4.17",
     "vue": "^3.5.13",
     "vue-echarts": "^7.0.3",
+    "vue-grid-layout": "^3.0.0-beta1",
     "vue-icons": "^2.0.0",
     "vue-router": "^4.5.0"
   },
