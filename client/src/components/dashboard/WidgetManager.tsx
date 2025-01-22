@@ -165,7 +165,7 @@ export const WidgetManager: React.FC = () => {
     setWidgets(updatedWidgets);
     saveWidgets(updatedWidgets);
 
-    setLayouts(prevLayouts => {
+    setLayouts((prevLayouts: any) => {
       const newLayouts = { ...prevLayouts };
       ['lg', 'md', 'sm', 'xs'].forEach(breakpoint => {
         if (!newLayouts[breakpoint]) newLayouts[breakpoint] = [];
@@ -185,11 +185,11 @@ export const WidgetManager: React.FC = () => {
   }, [widgets]);
 
   const removeWidget = useCallback((widgetId: string) => {
-    const updatedWidgets = widgets.filter(widget => widget.i !== widgetId);
+    const updatedWidgets = widgets.filter((widget: { i: string; }) => widget.i !== widgetId);
     setWidgets(updatedWidgets);
     saveWidgets(updatedWidgets);
     
-    setLayouts(prevLayouts => {
+    setLayouts((prevLayouts: any) => {
       const newLayouts = { ...prevLayouts };
       ['lg', 'md', 'sm', 'xs'].forEach(breakpoint => {
         if (newLayouts[breakpoint]) {

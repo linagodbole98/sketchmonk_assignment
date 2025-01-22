@@ -1,6 +1,6 @@
 import './assets/main.css'
 
-import { createApp } from 'vue'
+import { createApp } from 'vue/dist/vue.esm-bundler'
 import { createPinia } from 'pinia'
 import { VueQueryPlugin } from '@tanstack/vue-query'
 

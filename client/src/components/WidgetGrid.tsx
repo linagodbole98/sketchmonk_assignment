@@ -92,7 +92,7 @@ export const WidgetGrid = () => {
     setWidgets(newWidgets);
     localStorage.setItem("dashboardWidgets", JSON.stringify(newWidgets));
     
-    setLayouts((prev) => {
+    setLayouts((prev: { lg: string | any[]; md: string | any[]; sm: any; xs: any; }) => {
       const newLayouts = {
         ...prev,
         lg: [
@@ -142,11 +142,11 @@ export const WidgetGrid = () => {
   }, [widgets]);
 
   const handleRemoveWidget = useCallback((widgetId: string) => {
-    const newWidgets = widgets.filter((w) => w.id !== widgetId);
+    const newWidgets = widgets.filter((w: { id: string; }) => w.id !== widgetId);
     setWidgets(newWidgets);
     localStorage.setItem("dashboardWidgets", JSON.stringify(newWidgets));
     
-    setLayouts((prev) => {
+    setLayouts((prev: { lg: any[]; md: any[]; sm: any[]; xs: any[]; }) => {
       const newLayouts = {
         ...prev,
         lg: prev.lg.filter((item) => item.i !== widgetId),
@@ -163,7 +163,7 @@ export const WidgetGrid = () => {
     setIsEditing(!isEditing);
     if (!isEditing) {
       // When entering edit mode, populate available widgets
-      const currentWidgetIds = new Set(widgets.map((w) => w.type));
+      const currentWidgetIds = new Set(widgets.map((w: { type: any; }) => w.type));
       setAvailableWidgets(
         defaultWidgets.filter((w) => !currentWidgetIds.has(w.type))
       );
